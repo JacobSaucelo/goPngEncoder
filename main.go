@@ -34,6 +34,8 @@ func main() {
 		}
 	}
 
+	fmt.Printf("encode :", fileBits)
+
 	file, err := os.Create("output.png")
 	if err != nil {
 		panic(err)
@@ -50,7 +52,6 @@ func main() {
 func bytesToBinary(data []byte) string {
 	binaryString := ""
 	for _, b := range data {
-		// Convert each byte to binary representation
 		binaryString += fmt.Sprintf("%08b", b)
 	}
 	return binaryString
