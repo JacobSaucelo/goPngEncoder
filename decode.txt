@@ -74,28 +74,6 @@ func readAndPrintPixels(img image.Image) {
 	}
 }
 
-func imageToBits(img image.Image) string {
-	bounds := img.Bounds()
-	bits := ""
-
-	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-		for x := bounds.Min.X; x < bounds.Max.X; x++ {
-
-			pixelColor := color.GrayModel.Convert(img.At(x, y)).(color.Gray)
-
-			bit := "0"
-			if pixelColor.Y > 128 {
-				bit = "1"
-			}
-
-			bits += bit
-		}
-		bits += "\n"
-	}
-
-	return bits
-}
-
 func binaryToBytes(binaryString string) []byte {
 	// Ensure the binary string length is a multiple of 8
 	for len(binaryString)%8 != 0 {
