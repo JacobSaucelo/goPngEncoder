@@ -48,18 +48,3 @@ func textToPng() {
 
 	fmt.Println("Image saved to output.png")
 }
-
-func bytesToBinary(data []byte) string {
-	binaryString := ""
-	for _, b := range data {
-		binaryString += fmt.Sprintf("%08b", b)
-	}
-	return binaryString
-}
-
-func CreateFolder() {
-	fileError := os.MkdirAll("output", os.ModePerm)
-	if fileError != nil {
-		fmt.Println("Cant create folder.")
-	}
-}
