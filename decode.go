@@ -5,7 +5,9 @@ import (
 	"image"
 	"image/color"
 	"image/png"
+	"io/ioutil"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -60,6 +62,16 @@ func readAndPrintPixels(img image.Image) {
 	}
 
 	fmt.Println("bit string: ", bitString)
+
+	bytes := binaryToBytes(bitString)
+
+	// Write bytes to a text file
+	err := writeBytesToFile(bytes, "outputTest.txt")
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Text file 'output.txt' created successfully.")
+	}
 }
 
 func imageToBits(img image.Image) string {
@@ -82,4 +94,32 @@ func imageToBits(img image.Image) string {
 	}
 
 	return bits
+}
+
+func binaryToBytes(binaryString string) []byte {
+	// Ensure the binary string length is a multiple of 8
+	for len(binaryString)%8 != 0 {
+		binaryString = "0" + binaryString
+	}
+
+	// Initialize a byte slice
+	bytes := make([]byte, len(binaryString)/8)
+
+	// Parse the binary string and populate the byte slice
+	for i := 0; i < len(binaryString); i += 8 {
+		// Extract each 8-bit chunk
+		chunk := binaryString[i : i+8]
+
+		// Parse the chunk as an integer
+		value, _ := strconv.ParseUint(chunk, 2, 8)
+
+		// Convert the integer to a byte and assign it to the byte slice
+		bytes[i/8] = byte(value)
+	}
+
+	return bytes
+}
+
+func writeBytesToFile(bytes []byte, filename string) error {
+	return ioutil.WriteFile(filename, bytes, 0644)
 }
