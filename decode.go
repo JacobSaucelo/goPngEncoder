@@ -37,11 +37,14 @@ func NewDecode() Decode {
 
 func (rawImage *Decode) ImageToBits() {
 	bounds := rawImage.data.Bounds()
-	bitString := ""
+	// bitString := ""
 
-	// fmt.Println(, bounds.Max.X)
-	y := bounds.Max.Y
-	x := bounds.Max.X
+	// (1,1)
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			fmt.Printf("(1,%d)\n", x)
+		}
+	}
 
 	fmt.Println("raw Image: ", bounds)
 }
