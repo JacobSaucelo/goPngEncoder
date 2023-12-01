@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/png"
 	"os"
 )
@@ -37,14 +38,26 @@ func NewDecode() Decode {
 
 func (rawImage *Decode) ImageToBits() {
 	bounds := rawImage.data.Bounds()
-	// bitString := ""
+	bitString := ""
 
 	// (1,1)
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
-			fmt.Printf("(1,%d)\n", x)
+			// fmt.Printf("(1,%d)\n", x)
+			pixelColor := rawImage.data.At(x, y)
+			rgba := color.RGBAModel.Convert(pixelColor).(color.RGBA)
+			fmt.Printf("Pixel at (%d, %d): R:%d G:%d B:%d A:%d\n", x, y, rgba.R, rgba.G, rgba.B, rgba.A)
+
+			if (rgba == color.RGBA{255, 255, 255, 255}) {
+				fmt.Print(" white")
+				bitString += "1"
+			} else {
+				fmt.Print(" black")
+				bitString += "0"
+
+			}
 		}
 	}
 
-	fmt.Println("raw Image: ", bounds)
+	fmt.Println("raw Image: ", bitString)
 }
